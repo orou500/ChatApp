@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "ejs": "^3.1.7",
+    "express": "^4.18.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.16",
+    "socket.io": "^4.5.0"
+  },
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "ChatApp",
+  "main": "nodemon server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
