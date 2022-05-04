@@ -1,0 +1,35 @@
+<header>
+    <nav class="navbar">
+        <h1><a href="/" class="logo"><%= siteName %></a></h1>
+        <input type="checkbox" id="toggler" onclick="animateBounce()">
+        <label for="toggler">
+            <lord-icon
+                id="arrowDown"
+                src="https://cdn.lordicon.com/xhdhjyqy.json"
+                trigger="click"
+                colors="primary:#ffffff"
+                style="transition-duration: 0.5s;"
+                >
+            </lord-icon></label>
+        <div class="menu">
+            <div class="nav-links">
+                <ul class="list">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+    function animateBounce() {
+        var menu = document.getElementById("arrowDown");
+        if(menu.style.transform === "rotate(180deg)"){
+            menu.style.transform = "rotate(0deg)"
+        } else {
+            menu.style.transform = "rotate(180deg)"
+        }
+    }
+</script>

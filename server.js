@@ -4,7 +4,22 @@ const port = process.env.PORT || 5000
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const authRoutes = require('./api/routes/authRoutes')
+const Keys = require('./services/Keys')
+const passportSetup = require('./services/passport-setup')
+
+// MongoDB connect
+mongoose.connect(`mongodb+srv://${Keys.mongoDB.MONGO_USERNAME}:${Keys.mongoDB.MONGO_PASSWORD}@league-api.sshyh.mongodb.net/test`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+
+mongoose.connection.on('connected', () => {
+    console.log('mongoDB Connected!')
+});
 
 app.locals.siteName = "Test App"
 app.use(morgan("dev"))
@@ -33,6 +48,8 @@ app.set('view engine', 'ejs')
 app.get('/',(req, res) => {
     res.render('index')
 })
+
+app.use(authRoutes)
 
 
 //handling errors
