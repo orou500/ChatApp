@@ -3,6 +3,16 @@ const googleStrategy = require('passport-google-oauth20')
 const Keys = require('./Keys')
 const User = require('../api/models/User')
 
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+    User.findById(id).then((user) => {
+        done(null, user)
+    })
+})
+
 passport.use(new googleStrategy({
     // options for the google strategy
     clientID: Keys.google.clientID,
@@ -14,12 +24,14 @@ passport.use(new googleStrategy({
             if(user){
                 //already have user ind DB
                 console.log('user is', user)
+                done(null, user)
             } else {
                 new User({
                     username: profile.displayName,
                     googleId: profile.id
                 }).save().then((newUser) => {
                     console.log(newUser)
+                    done(null, newUser)
                 })
             }
         })

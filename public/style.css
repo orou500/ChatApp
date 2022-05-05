@@ -58,10 +58,6 @@ a::before {
     transform: scaleX(1);
   }
 
-.logo {
-    margin-right: 50px;
-}
-
 
 .nav-links .list {
     list-style: none;

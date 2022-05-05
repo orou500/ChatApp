@@ -6,8 +6,10 @@ const app = express()
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const cookieSession = require('cookie-session')
 const authRoutes = require('./api/routes/authRoutes')
 const Keys = require('./services/Keys')
+const passport = require('passport')
 const passportSetup = require('./services/passport-setup')
 
 // MongoDB connect
@@ -29,6 +31,15 @@ app.use(express.urlencoded({
     extended: true
 }))
 app.use(methodOverride('_method'))
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [Keys.session.cookieKey]
+}))
+
+//initialize passport
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 //set headers
 app.use((req, res, next) => {
@@ -41,16 +52,17 @@ app.use((req, res, next) => {
     next()
 })
 
+
 //register view engine
 app.set('view engine', 'ejs')
 
 //view routes
+
 app.get('/',(req, res) => {
-    res.render('index')
+    res.render('index', {user: req.user})
 })
 
 app.use(authRoutes)
-
 
 //handling errors
 app.use((req, res, next) => {

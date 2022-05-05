@@ -14,12 +14,21 @@
         <div class="menu">
             <div class="nav-links">
                 <ul class="list">
+                    <% if(!user) { %>
                     <li><a href="/">Home</a></li>
                     <li><a href="/login">Login</a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                    <li><a href="/">Home</a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
+        <% if(user) { %>
+            <div class="user">
+                <p>Welcome, <a class="user-name" href="/profile"><%= user.username %></a></p>
+                <a href="/logout">Logout</a>
+            </div>
+        <% } %>
     </nav>
 </header>
 

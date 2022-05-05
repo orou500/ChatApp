@@ -6,6 +6,7 @@ const passport = require('passport')
 //auth login
 router.get('/login', authController.getLogin)
 router.get('/logout', authController.logout)
+router.get('/login/success', authController.authCheck, authController.loginSuccess)
 
 //auth with google
 router.get('/google', passport.authenticate('google', {
