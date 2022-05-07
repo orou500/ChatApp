@@ -23,14 +23,12 @@ passport.use(new googleStrategy({
         User.findOne({googleId: profile.id}).then((user) => {
             if(user){
                 //already have user ind DB
-                console.log('user is', user)
                 done(null, user)
             } else {
                 new User({
                     username: profile.displayName,
                     googleId: profile.id
                 }).save().then((newUser) => {
-                    console.log(newUser)
                     done(null, newUser)
                 })
             }

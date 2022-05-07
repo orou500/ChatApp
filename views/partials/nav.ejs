@@ -19,6 +19,7 @@
                     <li><a href="/login">Login</a></li>
                     <% } else { %>
                     <li><a href="/">Home</a></li>
+                    <li><a href="#modal">Open Chat</a></li>
                     <% } %>
                 </ul>
             </div>
@@ -30,6 +31,9 @@
             </div>
         <% } %>
     </nav>
+    <% if(user) { %>
+        <%- include('chatbox') %>
+    <% } %>
 </header>
 
 <script>
