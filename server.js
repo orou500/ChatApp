@@ -57,7 +57,6 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs')
 
 //view routes
-
 app.get('/',(req, res) => {
     res.render('index', {user: req.user})
 })
@@ -86,11 +85,21 @@ io = require('socket.io')(server);
 
 
 io.on('connection', (socket) => {
-    console.log('a user connected')
+    const users = {}
+
+    socket.on('user-name', (name) => {
+        users[socket.id] = name
+        io.emit('connection', name + ' connected')
+    })
 
     socket.on('disconnect', () => {
-      console.log('user disconnected')
+        console.log(socket.id +' disconnected')
     })
+
+    socket.on('chat message', (msg) => {
+        io.emit('chat message', {message: msg, name: users[socket.id]})
+    })
+
 })
 
 

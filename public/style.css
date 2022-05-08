@@ -170,13 +170,52 @@ a::before {
     padding-left: 10px;
 }
 
-.name{
+.users-list li{
     margin-bottom: 10px;
 }
 .chat-container {
     height: 90vh;
     width: 100%;
     display: flex;
+}
+
+#message-container {
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+    max-width: 1200px;
+    height: 90%;
+}
+
+#message-container div {
+    background-color: #CCC;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#message-input {
+    flex-grow: 1;
+}
+
+#send-container {
+    position: fixed;
+    padding-bottom: 30px;
+    bottom: 0;
+    width: 61%;
+    display: flex;
+}
+
+.messages {
+    list-style: none;
+    overflow: auto;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.message {
+    margin-left: 5px;
+    margin-bottom: 5px;
 }
 
 @media  screen and (max-width: 600px) {
@@ -223,6 +262,10 @@ a::before {
         align-items: center;
         justify-content: center;
         transition: all 0.4s;
+    }
+
+    #send-container {
+        width: 57%;
     }
 
 }

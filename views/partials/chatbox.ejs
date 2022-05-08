@@ -4,15 +4,53 @@
         <h1>Chat</h1>
         <div class="chat-container">
             <div class="container-30">
-                <ul class="users-list">
-                    <li class="name">Or Moshe</li>
-                    <li class="name">Or Moshe</li>
-                    <li class="name">Or Moshe</li>
+                <ul class="users-list" id="users-list">
+                    <li>Test Test</li>
                 </ul>
             </div>
             <div class="container-70">
-                
+                <div id="message-container">
+                    <ul id="messages" class="messages">
+
+                    </ul>
+                    <form action="" id="send-container">
+                        <input type="text" id="message-input" autocomplete="off">
+                        <button type="submit" id="send-btn">Send</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+
+var form = document.getElementById('send-container')
+var input = document.getElementById('message-input')
+var messages = document.getElementById('messages');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault()
+    if (input.value) {
+      socket.emit('chat message', input.value)
+      input.value = ''
+    }
+});
+
+socket.on('chat message', function(data) {
+    let item = document.createElement('li');
+    item.className = "message";
+    item.textContent = `${data.name}: ${data.message}`;
+    messages.appendChild(item);
+    var messageBody = document.querySelector('#messages');
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+});
+
+socket.on('connection', function(msg) {
+    let item = document.createElement('li');
+    item.className = "message";
+    item.textContent = msg;
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+});
+</script>
