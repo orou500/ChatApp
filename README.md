@@ -7,7 +7,6 @@ Chat-App - Is A real time private Chat Application, you can send massages to onl
 - Authentication
 - Massages
 - Real Time Changes
-- 
 
 ## ⚙️ Tech Stack
 
