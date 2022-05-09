@@ -31,33 +31,32 @@ var input = document.getElementById('message-input')
 socket.on('new user', function(users) {
     const getAllUser = Array.from(document.querySelectorAll('#users-list>li'));
     document.getElementById("users-list").innerHTML = "";
+    users.forEach(user => {
+        let item = document.createElement('li');
+        item.className = "user-in-chat";
+        item.setAttribute('id',user.id);
+        item.setAttribute('onclick','clickOnUser(this.id)')
+        item.textContent = `${user.username}`;
+        usersList.appendChild(item);
+    })
+
     if(getAllUser.length > 0){
-        users.forEach(user => {
-            getAllUser.forEach(userInList => {
-                if(user.id !== socket.id){
-                    if(userInList.innerText !== user.username){
-                        let item = document.createElement('li');
-                        item.className = "user-in-chat";
-                        item.setAttribute('id',user.id);
-                        item.setAttribute('onclick','clickOnUser(this.id)')
-                        item.textContent = `${user.username}`;
-                        usersList.appendChild(item);
-                    } 
+        getAllUser.forEach(userInList => {
+            users.forEach(userInServ => {
+                if(userInList.id !== userInServ.id){
+                    let item = document.createElement('li');
+                    item.className = "user-in-chat";
+                    item.setAttribute('id',user.id);
+                    item.setAttribute('onclick','clickOnUser(this.id)')
+                    item.textContent = `${user.username}`;
+                    usersList.appendChild(item);
+                } else {
+                    document.getElementById(socket.id).innerHTML = "";
                 }
             })
         })
-    } else {
-        users.forEach(user => {
-            if(user.id !== socket.id){
-                let item = document.createElement('li');
-                item.className = "user-in-chat";
-                item.setAttribute('id',user.id);
-                item.setAttribute('onclick','clickOnUser(this.id)')
-                item.textContent = `${user.username}`;
-                usersList.appendChild(item);
-            }
-        })
     }
+    document.getElementById(socket.id).innerHTML = "";
 });
 
 function clickOnUser(clicked_id) {

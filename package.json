@@ -18,9 +18,18 @@
   "description": "ChatApp",
   "main": "nodemon server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orou500/ChatApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/orou500/ChatApp/issues"
+  },
+  "homepage": "https://github.com/orou500/ChatApp#readme"
 }
-

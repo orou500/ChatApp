@@ -100,7 +100,10 @@ io.on('connection', (socket) => {
             username,
             id: socket.id,
         }
-        users.push(user)
+        const newUser = users.filter(u => u.username == username)
+        if(username !== newUser){
+            users.push(user)
+        }
         io.emit("new user", users)
     })
 
@@ -140,7 +143,9 @@ io.on('connection', (socket) => {
     // })
 
     socket.on('disconnect', () => {
+        console.log(socket.id)
         users = users.filter(u => u.id !== socket.id)
+        console.log(socket.id)
         io.emit('new user', users)
     })
 
