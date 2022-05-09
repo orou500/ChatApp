@@ -5,7 +5,6 @@
         <div class="chat-container">
             <div class="container-30">
                 <ul class="users-list" id="users-list">
-                    <li>Test Test</li>
                 </ul>
             </div>
             <div class="container-70">
@@ -14,8 +13,10 @@
 
                     </ul>
                     <form action="" id="send-container">
-                        <input type="text" id="message-input" autocomplete="off">
-                        <button type="submit" id="send-btn">Send</button>
+                        <div class="input-container">
+                            <input type="text" id="message-input" name="message-input" autocomplete="off" required>
+                            <label for="message-input">Your Message:</label>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -24,33 +25,91 @@
 </div>
 
 <script>
-
+const usersList = document.getElementById('users-list')
 var form = document.getElementById('send-container')
 var input = document.getElementById('message-input')
-var messages = document.getElementById('messages');
+
+socket.on('new user', function(users) {
+    const getAllUser = Array.from(document.querySelectorAll('#users-list>li'));
+    document.getElementById("users-list").innerHTML = "";
+    if(getAllUser.length > 0){
+        users.forEach(user => {
+            getAllUser.forEach(userInList => {
+                if(user.id !== socket.id){
+                    if(userInList.innerText !== user.username){
+                        let item = document.createElement('li');
+                        item.className = "user-in-chat";
+                        item.setAttribute('id',user.id);
+                        item.setAttribute('onclick','clickOnUser(this.id)')
+                        item.textContent = `${user.username}`;
+                        usersList.appendChild(item);
+                    } 
+                }
+            })
+        })
+    } else {
+        users.forEach(user => {
+            if(user.id !== socket.id){
+                let item = document.createElement('li');
+                item.className = "user-in-chat";
+                item.setAttribute('id',user.id);
+                item.setAttribute('onclick','clickOnUser(this.id)')
+                item.textContent = `${user.username}`;
+                usersList.appendChild(item);
+            }
+        })
+    }
+});
+
+function clickOnUser(clicked_id) {
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.set('id', clicked_id);
+
+    searchParams.toString()
+    window.history.replaceState({}, '', `${location.pathname}?${searchParams.toString()}`);
+
+}
 
 form.addEventListener('submit', function(e) {
     e.preventDefault()
     if (input.value) {
-      socket.emit('chat message', input.value)
-      input.value = ''
+        const userId = Qs.parse(location.search, { ignoreQueryPrefix: true }).id
+        if(userId) {
+            let item = document.createElement('li');
+            item.className = "message send";
+            item.textContent = `Me: ${input.value}`;
+            messages.appendChild(item);
+            var messageBody = document.querySelector('#messages');
+            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+            socket.emit('chat message', input.value, userId)
+            input.value = ''
+        }
+        input.value = ''
     }
 });
 
-socket.on('chat message', function(data) {
+socket.on('new message', function(data) {
+    let prevTitle = document.title
+    document.title = '(1) New Message'
+
+    setTimeout(() => {
+        document.title = prevTitle
+    }, "2000")
+
+    window.location.href = `#modal`;
+
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.set('id', data.fromSocket);
+
+    searchParams.toString()
+    window.history.replaceState({}, '', `${location.pathname}?${searchParams.toString()}`);
+
     let item = document.createElement('li');
-    item.className = "message";
-    item.textContent = `${data.name}: ${data.message}`;
+    item.className = "message get";
+    item.textContent = `${data.from}: ${data.message}`;
     messages.appendChild(item);
     var messageBody = document.querySelector('#messages');
     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 });
 
-socket.on('connection', function(msg) {
-    let item = document.createElement('li');
-    item.className = "message";
-    item.textContent = msg;
-    messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
-});
 </script>

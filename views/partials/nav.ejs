@@ -37,8 +37,8 @@
 </header>
 
 <script>
-    const UserName = document.getElementById('User-Name').innerText
-    socket.emit('user-name', UserName)
+    const userName = document.getElementById('User-Name').innerText
+    socket.emit('join server', userName)
 
     function animateBounce() {
         var menu = document.getElementById("arrowDown");
