@@ -172,6 +172,8 @@ a::before {
 .users-list {
     list-style: none;
     padding-left: 10px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .users-list li{
@@ -190,7 +192,6 @@ a::before {
     max-width: 1200px;
     height: 90%;
 }
-
 
 #message-input {
     width: 100%;
